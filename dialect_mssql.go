@@ -5,6 +5,7 @@
 package xorm
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"strconv"
@@ -324,9 +325,13 @@ func (db *mssql) IndexCheckSql(tableName, idxName string) (string, []interface{}
 }*/
 
 func (db *mssql) IsColumnExist(tableName, colName string) (bool, error) {
+	return db.IsColumnExistContext(context.Background(), tableName, colName)
+}
+
+func (db *mssql) IsColumnExistContext(ctx context.Context, tableName, colName string) (bool, error) {
 	query := `SELECT "COLUMN_NAME" FROM "INFORMATION_SCHEMA"."COLUMNS" WHERE "TABLE_NAME" = ? AND "COLUMN_NAME" = ?`
 
-	return db.HasRecords(query, tableName, colName)
+	return db.HasRecordsContext(ctx, query, tableName, colName)
 }
 
 func (db *mssql) TableCheckSql(tableName string) (string, []interface{}) {

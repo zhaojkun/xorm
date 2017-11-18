@@ -5,6 +5,7 @@
 package xorm
 
 import (
+	"context"
 	"database/sql"
 	"reflect"
 	"time"
@@ -14,6 +15,7 @@ import (
 
 // Interface defines the interface which Engine, EngineGroup and Session will implementate.
 type Interface interface {
+	WithContext(ctx context.Context) *Session
 	AllCols() *Session
 	Alias(alias string) *Session
 	Asc(colNames ...string) *Session

@@ -7,6 +7,7 @@ package xorm
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"database/sql"
 	"encoding/gob"
 	"errors"
@@ -226,6 +227,12 @@ func (engine *Engine) SetDefaultCacher(cacher core.Cacher) {
 // GetDefaultCacher returns the default cacher
 func (engine *Engine) GetDefaultCacher() core.Cacher {
 	return engine.Cacher
+}
+
+// WithContext
+func (engine *Engine) WithContext(ctx context.Context) *Session {
+	session := engine.NewSession()
+	return session.WithContext(ctx)
 }
 
 // NoCache If you has set default cacher, and you want temporilly stop use cache,

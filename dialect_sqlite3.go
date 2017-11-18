@@ -5,6 +5,7 @@
 package xorm
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -257,12 +258,15 @@ func (db *sqlite3) ForUpdateSql(query string) string {
 	sql := "SELECT name FROM sqlite_master WHERE type='table' and name = ? and ((sql like '%`" + colName + "`%') or (sql like '%[" + colName + "]%'))"
 	return sql, args
 }*/
-
 func (db *sqlite3) IsColumnExist(tableName, colName string) (bool, error) {
+	return db.IsColumnExistContext(context.Background(), tableName, colName)
+}
+
+func (db *sqlite3) IsColumnExistContext(ctx context.Context, tableName, colName string) (bool, error) {
 	args := []interface{}{tableName}
 	query := "SELECT name FROM sqlite_master WHERE type='table' and name = ? and ((sql like '%`" + colName + "`%') or (sql like '%[" + colName + "]%'))"
 	db.LogSQL(query, args)
-	rows, err := db.DB().Query(query, args...)
+	rows, err := db.DB().QueryContext(ctx, query, args...)
 	if err != nil {
 		return false, err
 	}

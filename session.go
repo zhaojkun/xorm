@@ -5,6 +5,7 @@
 package xorm
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
 	"errors"
@@ -20,6 +21,7 @@ import (
 // Session keep a pointer to sql.DB and provides all execution of all
 // kind of database operations.
 type Session struct {
+	ctx                    context.Context
 	db                     *core.DB
 	engine                 *Engine
 	tx                     *core.Tx
@@ -82,6 +84,22 @@ func (session *Session) Init() {
 
 	session.lastSQL = ""
 	session.lastSQLArgs = []interface{}{}
+
+	session.ctx = context.Background()
+}
+
+// WithContext returns a shallow copy of r with its context changed to ctx. The provided ctx must be non-nil.
+func (session *Session) WithContext(ctx context.Context) *Session {
+	session.ctx = ctx
+	return session
+}
+
+// Context
+func (session *Session) Context() context.Context {
+	if session.ctx == nil {
+		return context.Background()
+	}
+	return session.ctx
 }
 
 // Close release the connection from pool
@@ -269,7 +287,7 @@ func (session *Session) doPrepare(db *core.DB, sqlStr string) (stmt *core.Stmt, 
 	var has bool
 	stmt, has = session.stmtCache[crc]
 	if !has {
-		stmt, err = db.Prepare(sqlStr)
+		stmt, err = db.PrepareContext(session.Context(), sqlStr)
 		if err != nil {
 			return nil, err
 		}

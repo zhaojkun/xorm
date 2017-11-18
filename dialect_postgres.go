@@ -5,6 +5,7 @@
 package xorm
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"net/url"
@@ -906,12 +907,16 @@ func (db *postgres) DropIndexSql(tableName string, index *core.Index) string {
 }
 
 func (db *postgres) IsColumnExist(tableName, colName string) (bool, error) {
+	return db.IsColumnExistContext(context.Background(), tableName, colName)
+}
+
+func (db *postgres) IsColumnExistContext(ctx context.Context, tableName, colName string) (bool, error) {
 	args := []interface{}{tableName, colName}
 	query := "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = $1" +
 		" AND column_name = $2"
 	db.LogSQL(query, args)
 
-	rows, err := db.DB().Query(query, args...)
+	rows, err := db.DB().QueryContext(ctx, query, args...)
 	if err != nil {
 		return false, err
 	}

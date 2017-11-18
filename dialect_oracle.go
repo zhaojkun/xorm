@@ -5,6 +5,7 @@
 package xorm
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"regexp"
@@ -659,14 +660,17 @@ func (db *oracle) MustDropTable(tableName string) error {
 	return "SELECT column_name FROM USER_TAB_COLUMNS WHERE table_name = ?" +
 		" AND column_name = ?", args
 }*/
-
 func (db *oracle) IsColumnExist(tableName, colName string) (bool, error) {
+	return db.IsColumnExistContext(context.Background(), tableName, colName)
+}
+
+func (db *oracle) IsColumnExistContext(ctx context.Context, tableName, colName string) (bool, error) {
 	args := []interface{}{tableName, colName}
 	query := "SELECT column_name FROM USER_TAB_COLUMNS WHERE table_name = :1" +
 		" AND column_name = :2"
 	db.LogSQL(query, args)
 
-	rows, err := db.DB().Query(query, args...)
+	rows, err := db.DB().QueryContext(ctx, query, args...)
 	if err != nil {
 		return false, err
 	}
