@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/go-xorm/core"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 func (session *Session) cacheDelete(table *core.Table, tableName, sqlStr string, args ...interface{}) error {
@@ -135,7 +135,7 @@ func (session *Session) Delete(bean interface{}) (int64, error) {
 			} else {
 				deleteSQL += " WHERE " + inSQL
 			}
-		// TODO: how to handle delete limit on mssql?
+			// TODO: how to handle delete limit on mssql?
 		case core.MSSQL:
 			return 0, ErrNotImplemented
 		default:

@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/go-xorm/core"
 	"github.com/stretchr/testify/assert"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 func TestArrayField(t *testing.T) {

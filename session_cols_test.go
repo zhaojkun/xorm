@@ -7,8 +7,8 @@ package xorm
 import (
 	"testing"
 
-	"github.com/go-xorm/core"
 	"github.com/stretchr/testify/assert"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 func TestSetExpr(t *testing.T) {

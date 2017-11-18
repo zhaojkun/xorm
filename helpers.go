@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-xorm/core"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 // str2PK convert string value to primary key value according to tp

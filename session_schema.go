@@ -11,7 +11,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/go-xorm/core"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 // Ping test if database is ok
@@ -21,7 +21,7 @@ func (session *Session) Ping() error {
 	}
 
 	session.engine.logger.Infof("PING DATABASE %v", session.engine.DriverName())
-	return session.DB().Ping()
+	return session.DB().PingContext(session.Context())
 }
 
 // CreateTable create a table according a bean

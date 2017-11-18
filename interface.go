@@ -5,15 +5,17 @@
 package xorm
 
 import (
+	"context"
 	"database/sql"
 	"reflect"
 	"time"
 
-	"github.com/go-xorm/core"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 // Interface defines the interface which Engine, EngineGroup and Session will implementate.
 type Interface interface {
+	WithContext(ctx context.Context) *Session
 	AllCols() *Session
 	Alias(alias string) *Session
 	Asc(colNames ...string) *Session

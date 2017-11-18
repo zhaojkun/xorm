@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/go-xorm/core"
 	"github.com/stretchr/testify/assert"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 func TestJoinLimit(t *testing.T) {

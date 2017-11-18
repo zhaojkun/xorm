@@ -5,7 +5,7 @@
 package xorm
 
 import (
-	"github.com/go-xorm/core"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 // EngineGroup defines an engine group

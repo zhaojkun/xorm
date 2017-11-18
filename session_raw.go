@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/go-xorm/core"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 func (session *Session) queryPreprocess(sqlStr *string, paramStr ...interface{}) {
@@ -61,21 +61,21 @@ func (session *Session) queryRows(sqlStr string, args ...interface{}) (*core.Row
 				return nil, err
 			}
 
-			rows, err := stmt.Query(args...)
+			rows, err := stmt.QueryContext(session.Context(), args...)
 			if err != nil {
 				return nil, err
 			}
 			return rows, nil
 		}
 
-		rows, err := db.Query(sqlStr, args...)
+		rows, err := db.QueryContext(session.Context(), sqlStr, args...)
 		if err != nil {
 			return nil, err
 		}
 		return rows, nil
 	}
 
-	rows, err := session.tx.Query(sqlStr, args...)
+	rows, err := session.tx.QueryContext(session.Context(), sqlStr, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -174,7 +174,7 @@ func (session *Session) exec(sqlStr string, args ...interface{}) (sql.Result, er
 	}
 
 	if !session.isAutoCommit {
-		return session.tx.Exec(sqlStr, args...)
+		return session.tx.ExecContext(session.Context(), sqlStr, args...)
 	}
 
 	if session.prepareStmt {
@@ -183,14 +183,14 @@ func (session *Session) exec(sqlStr string, args ...interface{}) (sql.Result, er
 			return nil, err
 		}
 
-		res, err := stmt.Exec(args...)
+		res, err := stmt.ExecContext(session.Context(), args...)
 		if err != nil {
 			return nil, err
 		}
 		return res, nil
 	}
 
-	return session.DB().Exec(sqlStr, args...)
+	return session.DB().ExecContext(session.Context(), sqlStr, args...)
 }
 
 // Exec raw sql
