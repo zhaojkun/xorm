@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-xorm/core"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 const (

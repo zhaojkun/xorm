@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-xorm/core"
 	"github.com/stretchr/testify/assert"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 func TestGetVar(t *testing.T) {

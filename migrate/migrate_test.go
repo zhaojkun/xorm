@@ -6,8 +6,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/go-xorm/xorm"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/zhaojkun/xorm"
 	"gopkg.in/stretchr/testify.v1/assert"
 )
 

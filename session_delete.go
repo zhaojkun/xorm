@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/go-xorm/core"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 func (session *Session) cacheDelete(table *core.Table, tableName, sqlStr string, args ...interface{}) error {

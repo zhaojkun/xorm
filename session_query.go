@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/go-xorm/builder"
-	"github.com/go-xorm/core"
+	core "github.com/zhaojkun/xorm-core"
 )
 
 // Query runs a raw sql and return records as []map[string][]byte
